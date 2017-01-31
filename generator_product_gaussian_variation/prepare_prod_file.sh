@@ -1,0 +1,17 @@
+#!/bin/bash
+
+filepath="./list_prod.txt"
+
+cat $filepath | while read LINE
+do
+string=$LINE
+#echo $string
+replaced_string=${string//;/ }
+#echo $replaced_string
+
+./create_prod_file.sh $replaced_string
+
+sleep 2
+
+done
+
