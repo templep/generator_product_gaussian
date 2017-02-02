@@ -22,34 +22,139 @@ void help()
     cout << "\t generator_product_gaussian_variation <filename>" << endl;
 }
 
+//////////////////////////***** methods to make the code shorter *******///////////////////////////////////////
+//////////////******* BG methods **************//////////////
+
 /**
-* a function called (both in interactive and non-interactive modes) when no detection module should be used
-* it will write into the output file all parameters related to detection with options to select detection module deactivated
-* intput :
-*   - fstream& f : a file stream representing the output file (avoid copy)
+* a function to use default values of BackgroundSubtraction -> MOG method
+*
 */
-void write_no_detection(fstream& f)
+void mkMOGDefault(fstream& f)
 {
-    f << "OpenCV.nb_frame=222"<< "\n";
-    f << "Detect=0"<< "\n";
-    f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
+}
+
+/**
+* a function to deactivate MOG feature and use default values
+*
+*/
+void mkNoUseMOG(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
+    mkMOGDefault(f);
+}
+
+/**
+* a function to activate MOG feature and use default values
+*
+*/
+void mkUseMOG(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.MOG=1"<< "\n";
+    mkMOGDefault(f);
+}
+
+/**
+* a function to use default values of BackgroundSubtraction -> MOG2 method
+*
+*/
+void mkMOG2Default(fstream& f)
+{
     f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
     f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
+}
+
+/**
+* a function to deactivate MOG2 feature and use default values
+*
+*/
+void mkNoUseMOG2(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
+    mkMOG2Default(f);
+}
+
+/**
+* a function to activate MOG2 feature and use default values
+*
+*/
+void mkUseMOG2(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.MOG2=1"<< "\n";
+    mkMOG2Default(f);
+}
+
+/**
+* a function to use default values of BackgroundSubtraction -> GMG method
+*
+*/
+void mkGMGDefault(fstream& f)
+{
     f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
     f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
+}
+
+/**
+* a function to deactivate GMG feature and use default values
+*
+*/
+void mkNoUseGMG(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
+    mkGMGDefault(f);
+}
+
+/**
+* a function to activate GMG feature and use default values
+*
+*/
+void mkUseGMG(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.GMG=1"<< "\n";
+    mkGMGDefault(f);
+}
+
+/**
+* a function to use default values of BackgroundSubtraction -> KNN method
+*
+*/
+void mkKNNDefault(fstream& f)
+{
     f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
     f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
     f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
+}
+
+/**
+* a function to deactivate KNN feature and use default values
+*
+*/
+void mkNoUseKNN(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
+    mkKNNDefault(f);
+}
+
+/**
+* a function to activate KNN feature and use default values
+*
+*/
+void mkUseKNN(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.KNN=1"<< "\n";
+    mkKNNDefault(f);
+}
+
+/**
+* a function to use default values of BackgroundSubtraction -> FGD method
+*
+*/
+void mkFGDDefault(fstream& f)
+{
     f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
     f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
     f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
@@ -64,7 +169,30 @@ void write_no_detection(fstream& f)
     f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
     f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
     f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
-    f << "Detect.MorphologicalOperators=0"<< "\n";
+}
+
+/**
+* a function to deactivate FGD feature and use default values
+*
+*/
+void mkNoUseFGD(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.FGD=0"<< "\n";
+    mkFGDDefault(f);
+}
+
+/**
+* a function to activate FGD feature and use default values
+*
+*/
+void mkUseFGD(fstream& f)
+{
+    f << "Detect.BackgroundSubtraction.FGD=1"<< "\n";
+    mkFGDDefault(f);
+}
+
+void mkMorphoOp(fstream& f)
+{
     f << "Detect.MorphologicalOperators.Dilate=1"<< "\n";
     f << "Detect.MorphologicalOperators.Dilate.shape=rectangle"<< "\n";
     f << "Detect.MorphologicalOperators.Dilate.height=10"<< "\n";
@@ -77,7 +205,10 @@ void write_no_detection(fstream& f)
     f << "Detect.MorphologicalOperators.Erode.width=10"<< "\n";
     f << "Detect.MorphologicalOperators.Erode.anchorx=-1"<< "\n";
     f << "Detect.MorphologicalOperators.Erode.anchory=-1"<< "\n";
-    f << "Detect.ContoursRetrieval=0"<< "\n";
+}
+
+void mkContours(fstream& f)
+{
     f << "Detect.ContoursHierarchical.HCR=0"<< "\n";
     f << "Detect.ContoursHierarchical.HCR.External=0"<< "\n";
     f << "Detect.ContoursHierarchical.HCR.C_comp=0"<< "\n";
@@ -91,21 +222,29 @@ void write_no_detection(fstream& f)
     f << "Detect.ContoursHierarchical.Approximate.L1=0"<< "\n";
     f << "Detect.ContoursHierarchical.offsetx=0"<< "\n";
     f << "Detect.ContoursHierarchical.offsety=0"<< "\n";
-    f << "Detect.MerginBoundingBoxes=0"<< "\n";
+}
+
+void mkMerging(fstream& f)
+{
     f << "Detect.MerginBoundingBoxes.scalingFactor=10"<< "\n";
     f << "Detect.MerginBoundingBoxes.nb_loop=-1"<< "\n";
     f << "Detect.MerginBoundingBoxes.maxDistance=10"<< "\n";
-    f << "Detect.Filters=0"<< "\n";
+}
+
+void mkFilters(fstream& f)
+{
     f << "Detect.Filters.FilterLenght=1"<< "\n";
     f << "Detect.Filters.FilterLenght.threshold=10"<< "\n";
     f << "Detect.Filters.FilterArea=1"<< "\n";
     f << "Detect.Filters.FilterArea.threshold=100"<< "\n";
-    f << "Detect.OpticalFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
+}
+
+//////////////******* end BG methods **************//////////////
+
+//////////////******* Optical Flow methods *******//////////////
+
+void mkFarnebackDefault(fstream& f)
+{
     f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
     f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
     f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
@@ -115,16 +254,41 @@ void write_no_detection(fstream& f)
     f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
     f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
+}
+
+void mkNoUseFarneback(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
+    mkFarnebackDefault(f);
+}
+
+void mkUseFarneback(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.Farneback=1"<< "\n";
+    mkFarnebackDefault(f);
+}
+
+void mkSimpleFlowDefault(fstream& f)
+{
     f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
     f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
     f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
+}
+
+void mkNoUseSimpleFlow(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
+    mkSimpleFlowDefault(f);
+}
+
+void mkUseSimpleFlow(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.SimpleFlow=1"<< "\n";
+    mkSimpleFlowDefault(f);
+}
+
+void mkDualTVLDefault(fstream& f)
+{
     f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
     f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
     f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
@@ -132,12 +296,71 @@ void write_no_detection(fstream& f)
     f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
     f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
     f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
+}
+
+void mkNoUseDualTVL(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
+    mkDualTVLDefault(f);
+}
+
+void mkUseDualTVL(fstream& f)
+{
+    f << "Detect.OpticalFlow.Dense.DualTVL=1"<< "\n";
+    mkDualTVLDefault(f);
+}
+
+void mkOptFlowPyr(fstream& f)
+{
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
+}
+
+void mkNoUseOptFlowPyr(fstream& f)
+{
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
+    mkOptFlowPyr(f);
+}
+
+void mkUseOptFlowPyr(fstream& f)
+{
+    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=1"<< "\n";
+    mkOptFlowPyr(f);
+}
+//////////////******* end OpticalFlow methods **************//////////////
+
+//////////////******* MotionHistory methods **************//////////////
+
+void mkMotionHistoryDefault(fstream& f)
+{
     f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
     f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
     f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
     f << "Detect.MotionHistory.threshold=22"<<"\n";
-    f << "Detect.BlockMatching=0" << "\n";
+}
+
+void mkNoUseMotionHistory(fstream& f)
+{
+    f << "Detect.MotionHistory=0"<< "\n";
+    mkMotionHistoryDefault(f);
+}
+
+void mkUseMotionHistory(fstream& f)
+{
+    f << "Detect.MotionHistory=1"<< "\n";
+    mkMotionHistoryDefault(f);
+}
+
+//////////////******* end MotionHistory methods **************//////////////
+
+//////////////******* BM methods **************//////////////
+
+void mkBMDefault(fstream& f)
+{
     f << "Detect.BlockMatching.min_disparity=0"<< "\n";
     f << "Detect.BlockMatching.num_disparities=16"<< "\n";
     f << "Detect.BlockMatching.block_size=3"<< "\n";
@@ -148,6 +371,652 @@ void write_no_detection(fstream& f)
     f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
     f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
     f << "Detect.BlockMatching.speckle_range=0"<< "\n";
+}
+
+void mkNoUseBM(fstream& f)
+{
+    f << "Detect.BlockMatching=0"<< "\n";
+    mkBMDefault(f);
+}
+
+void mkUseBM(fstream& f)
+{
+    f << "Detect.BlockMatching=1"<< "\n";
+    mkBMDefault(f);
+}
+
+//////////////******* BM methods **************//////////////
+
+//////////////******* Color Space methods **************//////////////
+
+void mkUseRGB(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=1"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseGray(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=1"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseYCrCb(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=1"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseYUV(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=1"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseXYZ(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=1"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseHSV(fstream& f)
+{
+        f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=1"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseHLS(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=1"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseLab(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=1"<< "\n";
+    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+}
+
+void mkUseLuv(fstream& f)
+{
+    f << "Recognition.ColorSpace=1"<< "\n";
+    f << "Recognition.ColorSpace.rgb=0"<< "\n";
+    f << "Recognition.ColorSpace.gray=0"<< "\n";
+    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
+    f << "Recognition.ColorSpace.YUV=0"<< "\n";
+    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
+    f << "Recognition.ColorSpace.HSV=0"<< "\n";
+    f << "Recognition.ColorSpace.HLS=0"<< "\n";
+    f << "Recognition.ColorSpace.Lab=0"<< "\n";
+    f << "Recognition.ColorSpace.Luv=1"<< "\n";
+}
+
+//////////////******* end Color Space methods **************//////////////
+
+////////////////******************** recognition methods ************///////////////
+
+void mkTMDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
+}
+
+
+void mkUseTMCoeff(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseTMCoeffNorm(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseTMSQDiff(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseTMSQDiffNormed(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseTMCorr(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseTMCorrNormed(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=1"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkNoUseTM(fstream& f)
+{
+    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
+    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+    mkTMDefault(f);
+}
+
+void mkUseDistMatchAbsDiff(fstream& f)
+{
+    f << "Recognition.TemplateMatching.DistanceMatching=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+}
+
+void mkUseDistMatchMSE(fstream& f)
+{
+    f << "Recognition.TemplateMatching.DistanceMatching=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MSE=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+}
+
+void mkUseDistMatchMAE(fstream& f)
+{
+    f << "Recognition.TemplateMatching.DistanceMatching=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MAE=1" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+}
+
+void mkNoUseDistMatch(fstream& f)
+{
+    f << "Recognition.TemplateMatching.DistanceMatching=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
+    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+}
+
+void mkSIFTDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
+}
+
+void mkUseSIFT(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift=1"<< "\n";
+    mkSIFTDefault(f);
+}
+
+void mkNoUseSIFT(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
+    mkSIFTDefault(f);
+}
+
+void mkSURFDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
+}
+
+void mkUseSURF(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf=1"<< "\n";
+    mkSURFDefault(f);
+}
+
+void mkNoUseSURF(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
+    mkSURFDefault(f);
+}
+
+void mkBRIEFDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
+}
+
+void mkUseBRIEF(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brief=1"<< "\n";
+    mkBRIEFDefault(f);
+}
+
+void mkNoUseBRIEF(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
+    mkBRIEFDefault(f);
+}
+
+void mkORBDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
+}
+
+void mkNoUseORB(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
+    mkORBDefault(f);
+}
+
+void mkUseORB(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.ORB=1"<< "\n";
+    mkORBDefault(f);
+}
+
+void mkBRISKDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
+}
+
+void mkUseBRISK(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=1"<< "\n";
+    mkBRISKDefault(f);
+}
+
+void mkNoUseBRISK(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
+    mkBRISKDefault(f);
+}
+
+void mkFREAKDefault(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+}
+
+void mkUseFREAK(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak=1"<< "\n";
+    mkFREAKDefault(f);
+}
+
+void mkNoUseFREAK(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
+    mkFREAKDefault(f);
+}
+
+void mkNoUseFeatureMatch(fstream& f)
+{
+    f << "Recognition.TemplateMatching.FeatureMatching=0" << "\n";
+    mkNoUseSIFT(f);
+    mkNoUseSURF(f);
+    mkNoUseBRIEF(f);
+    mkNoUseORB(f);
+    mkNoUseBRISK(f);
+    mkNoUseFREAK(f);
+}
+
+void mkUseHistogramMatch(fstream& f)
+{
+    f << "Recognition.TemplateMatching.HistogramMatching=1" << "\n";
+    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
+    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+}
+
+void mkNoUseHistogramMatch(fstream& f)
+{
+    f << "Recognition.TemplateMatching.HistogramMatching=0" << "\n";
+    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
+    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+}
+
+
+void mkUsePixelWiseDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseCorrelDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseChiSqDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseChiSqAltDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseIntersectDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseKLDivDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseHellDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+void mkUseBhattDist(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=1"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=1"<< "\n";
+}
+
+void mkNoUseDistMeas(fstream& f)
+{
+    f << "Recognition.DistanceMeasure=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
+    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+}
+
+////////////******************** end recognition methods ************///////////////
+
+////////////***************** tracking methods *******************///////////////
+
+void mkNoUseTracking(fstream& f)
+{
+    f << "Tracking=0"<< "\n";
+    f << "Tracking.Trackers=0"<< "\n";
+    f << "Tracking.Trackers.Boosting=0"<< "\n";
+    f << "Tracking.Trackers.MIL=0"<< "\n";
+    f << "Tracking.CamShift=0"<< "\n";
+}
+
+void mkUseBoosting(fstream& f)
+{
+    f << "Tracking=1"<< "\n";
+    f << "Tracking.Trackers=1"<< "\n";
+    f << "Tracking.Trackers.Boosting=1"<< "\n";
+    f << "Tracking.Trackers.MIL=0"<< "\n";
+    f << "Tracking.CamShift=0"<< "\n";
+}
+
+void mkUseMIL(fstream& f)
+{
+    f << "Tracking=1"<< "\n";
+    f << "Tracking.Trackers=1"<< "\n";
+    f << "Tracking.Trackers.Boosting=0"<< "\n";
+    f << "Tracking.Trackers.MIL=1"<< "\n";
+    f << "Tracking.CamShift=0"<< "\n";
+}
+
+void mkUseCamShift(fstream& f)
+{
+    f << "Tracking=1"<< "\n";
+    f << "Tracking.Trackers=0"<< "\n";
+    f << "Tracking.Trackers.Boosting=0"<< "\n";
+    f << "Tracking.Trackers.MIL=0"<< "\n";
+    f << "Tracking.CamShift=1"<< "\n";
+}
+//////////////*************** end tracking methods ***************////////////////
+
+////////////////////////******* end methods to reduce the code C/C ***********///////////////////////////////////////////
+
+/**
+* a function called (both in interactive and non-interactive modes) when no detection module should be used
+* it will write into the output file all parameters related to detection with options to select detection module deactivated
+* intput :
+*   - fstream& f : a file stream representing the output file (avoid copy)
+*/
+void write_no_detection(fstream& f)
+{
+    f << "OpenCV.nb_frame=222"<< "\n";
+    f << "Detect=0"<< "\n";
+    f << "Detect.BackgroundSubtraction=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
+
+    f << "Detect.MorphologicalOperators=0"<< "\n";
+    mkMorphoOp(f);
+
+    f << "Detect.ContoursRetrieval=0"<< "\n";
+    mkContours(f);
+
+    f << "Detect.MerginBoundingBoxes=0"<< "\n";
+    mkMerging(f);
+
+    f << "Detect.Filters=0"<< "\n";
+    mkFilters(f);
+
+
+    f << "Detect.OpticalFlow=0"<< "\n";
+    f << "Detect.OpticalFlow.Dense=0"<< "\n";
+    f << "Detect.OpticalFlow.Sparse=0"<< "\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseMotionHistory(f);
+
+    mkNoUseBM(f);
+
 }
 
 /**
@@ -180,142 +1049,58 @@ void write_use_bgSub(fstream& f)
     {
         case 1 : // MOG
         {
-            f << "Detect.BackgroundSubtraction.MOG=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 2 : // MOG2
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 3 : // GMG
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 4 : // KNN
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         default : cout << "Not implemented yet" << endl;
@@ -323,51 +1108,18 @@ void write_use_bgSub(fstream& f)
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -406,142 +1158,58 @@ int write_use_bgSub(fstream& f, char** argv, int idx)
     {
         case 1 : // MOG
         {
-            f << "Detect.BackgroundSubtraction.MOG=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 2 : // MOG2
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 3 : // GMG
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 4 : // KNN
         {
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         default : cout << "Not implemented yet" << endl;
@@ -549,51 +1217,18 @@ int write_use_bgSub(fstream& f, char** argv, int idx)
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
 
     return idx;
 }
@@ -612,37 +1247,16 @@ int write_use_bgSub(fstream& f, char** argv, int idx)
 void write_use_optFlow(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
 
     ///which method to use ?
     cout << "Which method do you want to use ? (1 : Farneback; 2 : Simple Flow; 3 : DuaTVL1" << endl;
@@ -662,72 +1276,32 @@ void write_use_optFlow(fstream& f)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
+
             break;
         }
 
         case 2 : // use Simple Flow
         {
-                        f << "Detect.OpticalFlow=1"<< "\n";
+            f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
+
             break;
         }
         case 3 : // use Dual TVL 1
@@ -735,54 +1309,22 @@ void write_use_optFlow(fstream& f)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
+
+            mkUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
+
             break;
         }
     }
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -802,37 +1344,16 @@ void write_use_optFlow(fstream& f)
 int write_use_optFlow(fstream& f,char** argv, int idx)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
 
     ///which method to use ?
     cout << "Which method do you want to use ? (1 : Farneback; 2 : Simple Flow; 3 : DuaTVL1" << endl;
@@ -855,72 +1376,30 @@ int write_use_optFlow(fstream& f,char** argv, int idx)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
 
         case 2 : // use Simple Flow
         {
-                        f << "Detect.OpticalFlow=1"<< "\n";
+            f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
         case 3 : // use Dual TVL 1
@@ -928,55 +1407,21 @@ int write_use_optFlow(fstream& f,char** argv, int idx)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
+
+            mkUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
     }
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
 
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
     return idx;
 }
 
@@ -995,89 +1440,32 @@ int write_use_optFlow(fstream& f,char** argv, int idx)
 void write_use_BM(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
 
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
 
-    f << "Detect.BlockMatching=1" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
+    mkNoUseFarneback(f);
 
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+    mkNoUseSimpleFlow(f);
 
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkUseBM(f);
+
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -1095,88 +1483,32 @@ void write_use_BM(fstream& f)
 void write_use_MH(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
 
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
 
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
+    mkNoUseFarneback(f);
 
-    f << "Detect.MotionHistory=1"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
+
+    mkUseMotionHistory(f);
 }
 
 /**
@@ -1220,41 +1552,16 @@ void write_detect_default(fstream& f, int choice)
     }
 
     f << "Detect.MorphologicalOperators=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.shape=rectangle"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.height=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.width=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.anchory=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.anchorx=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.shape=rectangle"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.height=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.width=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.anchorx=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.anchory=-1"<< "\n";
+    mkMorphoOp(f);
+
     f << "Detect.ContoursRetrieval=1"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.External=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.C_comp=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.Tree=0"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR=1"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR.List=1"<< "\n";
-    f << "Detect.ContoursHierarchical.None=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.K_Cos=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.Simple=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.L1=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsetx=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsety=0"<< "\n";
+    mkContours(f);
+
     f << "Detect.MerginBoundingBoxes=1"<< "\n";
-    f << "Detect.MerginBoundingBoxes.scalingFactor=10"<< "\n";
-    f << "Detect.MerginBoundingBoxes.nb_loop=-1"<< "\n";
-    f << "Detect.MerginBoundingBoxes.maxDistance=10"<< "\n";
+    mkMerging(f);
+
     f << "Detect.Filters=1"<< "\n";
-    f << "Detect.Filters.FilterLenght=1"<< "\n";
-    f << "Detect.Filters.FilterLenght.threshold=10"<< "\n";
-    f << "Detect.Filters.FilterArea=1"<< "\n";
-    f << "Detect.Filters.FilterArea.threshold=100"<< "\n";
+    mkFilters(f);
 }
 
 /**
@@ -1298,41 +1605,16 @@ int write_detect_default(fstream& f, int choice, char** argv, int idx)
     }
 
     f << "Detect.MorphologicalOperators=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.shape=rectangle"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.height=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.width=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.anchory=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Dilate.anchorx=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode=1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.shape=rectangle"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.height=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.width=10"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.anchorx=-1"<< "\n";
-    f << "Detect.MorphologicalOperators.Erode.anchory=-1"<< "\n";
+    mkMorphoOp(f);
+
     f << "Detect.ContoursRetrieval=1"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.External=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.C_comp=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.Tree=0"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR=1"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR.List=1"<< "\n";
-    f << "Detect.ContoursHierarchical.None=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.K_Cos=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.Simple=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.L1=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsetx=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsety=0"<< "\n";
+    mkContours(f);
+
     f << "Detect.MerginBoundingBoxes=1"<< "\n";
-    f << "Detect.MerginBoundingBoxes.scalingFactor=10"<< "\n";
-    f << "Detect.MerginBoundingBoxes.nb_loop=-1"<< "\n";
-    f << "Detect.MerginBoundingBoxes.maxDistance=10"<< "\n";
+    mkMerging(f);
+
     f << "Detect.Filters=1"<< "\n";
-    f << "Detect.Filters.FilterLenght=1"<< "\n";
-    f << "Detect.Filters.FilterLenght.threshold=10"<< "\n";
-    f << "Detect.Filters.FilterArea=1"<< "\n";
-    f << "Detect.Filters.FilterArea.threshold=100"<< "\n";
+    mkFilters(f);
 
     return idx;
 }
@@ -1375,106 +1657,54 @@ void write_use_bgSub_rand(fstream& f)
             f << "Detect.BackgroundSubtraction.MOG.nb_mixture=" << res_mixt << "\n";
             f << "Detect.BackgroundSubtraction.MOG.noiseRob=" << res_robust << "\n";
             f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=" << res_thresh << "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 2 : // use MOG2
         {
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 25; //between 0 and 100 -> mean around 50
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
+
+            mkNoUseMOG(f);
+
             f << "Detect.BackgroundSubtraction.MOG2=1"<< "\n";
             f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
             f << "Detect.BackgroundSubtraction.MOG2.nb_frame=" << res_frame << "\n";
             f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=" << res_thresh << "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 3 : // use GMG
         {
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4; // between 0 and 1 -> mean around 0.5
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
+
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
             f << "Detect.BackgroundSubtraction.GMG=1"<< "\n";
             f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=" << res_thresh << "\n";
             f << "Detect.BackgroundSubtraction.GMG.nb_frame=" << res_frame << "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 4 : // use KNN
@@ -1482,37 +1712,20 @@ void write_use_bgSub_rand(fstream& f)
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 25; //between 0 and 100 and then squared -> mean around 50 and then 2500
             res_thresh *= res_thresh;
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
+
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
             f << "Detect.BackgroundSubtraction.KNN=1"<< "\n";
             f << "Detect.BackgroundSubtraction.KNN.nb_frame=" << res_frame << "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=" << "res_thresh"<< "\n";
+            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=" << res_thresh<< "\n";
             f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseFGD(f);
+
             break;
         }
         default : cout << "Not implemented yet" << endl;
@@ -1520,51 +1733,18 @@ void write_use_bgSub_rand(fstream& f)
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -1612,106 +1792,54 @@ int write_use_bgSub_rand(fstream& f, char** argv, int idx)
             f << "Detect.BackgroundSubtraction.MOG.nb_mixture=" << res_mixt << "\n";
             f << "Detect.BackgroundSubtraction.MOG.noiseRob=" << res_robust << "\n";
             f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=" << res_thresh << "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 2 : // use MOG2
         {
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 25; // between 0 and 100 -> mean around 50
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
+
+            mkNoUseMOG(f);
+
             f << "Detect.BackgroundSubtraction.MOG2=1"<< "\n";
             f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
             f << "Detect.BackgroundSubtraction.MOG2.nb_frame=" << res_frame << "\n";
             f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=" << res_thresh << "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseGMG(f);
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 3 : // use GMG
         {
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4; // between 0 and 1 -> mean around 0.5
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
+
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
             f << "Detect.BackgroundSubtraction.GMG=1"<< "\n";
             f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=" << res_thresh << "\n";
             f << "Detect.BackgroundSubtraction.GMG.nb_frame=" << res_frame << "\n";
-            f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseKNN(f);
+
+            mkNoUseFGD(f);
+
             break;
         }
         case 4 : // use KNN
@@ -1719,37 +1847,20 @@ int write_use_bgSub_rand(fstream& f, char** argv, int idx)
             int res_frame = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125; // between 0 and 500 -> mean around 250
             double res_thresh = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 25; // between 0 and 100 and then squared -> mean around 50 and then 2500
             res_thresh *= res_thresh;
-            f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-            f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-            f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
+
+            mkNoUseMOG(f);
+
+            mkNoUseMOG2(f);
+
+            mkNoUseGMG(f);
+
             f << "Detect.BackgroundSubtraction.KNN=1"<< "\n";
             f << "Detect.BackgroundSubtraction.KNN.nb_frame=" << res_frame << "\n";
-            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=" << "res_thresh"<< "\n";
+            f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=" << res_thresh << "\n";
             f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-            f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+            mkNoUseFGD(f);
+
             break;
         }
         default : cout << "Not implemented yet" << endl;
@@ -1757,52 +1868,18 @@ int write_use_bgSub_rand(fstream& f, char** argv, int idx)
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
 
+    mkNoUseFarneback(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
     return idx;
 }
 
@@ -1818,37 +1895,17 @@ int write_use_bgSub_rand(fstream& f, char** argv, int idx)
 void write_use_optFlow_rand(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
+
 
     ///which method to use ?
     cout << "Which method do you want to use ? (1 : Farneback; 2 : Simple Flow; 3 : DuaTVL1" << endl;
@@ -1876,9 +1933,8 @@ void write_use_optFlow_rand(fstream& f)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
+
             f << "Detect.OpticalFlow.Dense.Farneback=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=" << res_pyr_scale << "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.levels=" << res_lvl << "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.winSize=" << res_size << "\n";
@@ -1888,23 +1944,12 @@ void write_use_optFlow_rand(fstream& f)
             f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
 
@@ -1916,35 +1961,17 @@ void write_use_optFlow_rand(fstream& f)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
             f << "Detect.OpticalFlow.Dense.SimpleFlow=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=" << res_layer << "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=" << res_block_size << "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=" << res_flow << "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
         case 3 : // use Dual TVL 1
@@ -1954,28 +1981,11 @@ void write_use_optFlow_rand(fstream& f)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
             f << "Detect.OpticalFlow.Dense.DualTVL=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.lambda=" << res_lambda << "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
@@ -1983,25 +1993,16 @@ void write_use_optFlow_rand(fstream& f)
             f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseOptFlowPyr(f);
+
             break;
         }
     }
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -2022,37 +2023,17 @@ void write_use_optFlow_rand(fstream& f)
 int write_use_optFlow_rand(fstream& f, char** argv, int idx)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
+
 
     /// which method to use ?
     cout << "Which method do you want to use ? (1 : Farneback; 2 : Simple Flow; 3 : DuaTVL1" << endl;
@@ -2084,8 +2065,6 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=" << res_pyr_scale << "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.levels=" << res_lvl << "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.winSize=" << res_size << "\n";
@@ -2095,23 +2074,12 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
             f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseSimpleFlow(f);
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
 
@@ -2123,35 +2091,17 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
             f << "Detect.OpticalFlow.Dense.SimpleFlow=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=" << res_layer << "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=" << res_block_size << "\n";
             f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=" << res_flow << "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseDualTVL(f);
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
         case 3 : // use Dual TVL 1
@@ -2161,28 +2111,12 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
             f << "Detect.OpticalFlow=1"<< "\n";
             f << "Detect.OpticalFlow.Dense=1"<< "\n";
             f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
+
+            mkNoUseFarneback(f);
+
+            mkNoUseSimpleFlow(f);
+
             f << "Detect.OpticalFlow.Dense.DualTVL=1"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-            f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-            f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.lambda=" << res_lambda << "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
@@ -2190,26 +2124,15 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
             f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
             f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+            mkNoUseOptFlowPyr(f);
             break;
         }
     }
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
 
+    mkNoUseBM(f);
+
+    mkNoUseMotionHistory(f);
     return idx;
 }
 
@@ -2226,69 +2149,28 @@ int write_use_optFlow_rand(fstream& f, char** argv, int idx)
 void write_use_BM_rand(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
+
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
 
     int res_block = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 * 11 + 3; // between 3 and 14 -> mean around 8.5
     if(res_block % 2 == 0) {res_block += 1;} // res_block has to be odd
@@ -2304,11 +2186,7 @@ void write_use_BM_rand(fstream& f)
     f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
     f << "Detect.BlockMatching.speckle_range=0"<< "\n";
 
-    f << "Detect.MotionHistory=0"<< "\n";
-    f << "Detect.MotionHistory.mhi_duration=5"<< "\n";
-    f << "Detect.MotionHistory.min_time_delta=0.05"<< "\n";
-    f << "Detect.MotionHistory.max_time_delta=10"<<"\n";
-    f << "Detect.MotionHistory.threshold=22"<<"\n";
+    mkNoUseMotionHistory(f);
 }
 
 /**
@@ -2324,80 +2202,30 @@ void write_use_BM_rand(fstream& f)
 void write_use_MH_rand(fstream& f)
 {
     f << "Detect.BackgroundSubtraction=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_frame=200"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.nb_mixture=5"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.noiseRob=0.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG.decisionThreshold=0.7"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.MOG2.thresholdSquare=16.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.decisionThreshold=0.8"<< "\n";
-    f << "Detect.BackgroundSubtraction.GMG.nb_frame=120"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.nb_frame=500"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.thresholdSquare=400.0"<< "\n";
-    f << "Detect.BackgroundSubtraction.KNN.detectShadows=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD=0" << "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha1=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.deltish=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1cc=10"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n2cc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.is_obj_without_holes=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.n1c=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.lcc=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.perform_morphing=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.minArea=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha2=1"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.t=0"<< "\n";
-    f << "Detect.BackgroundSubtraction.FGD.alpha3=0"<< "\n";
+
+    mkNoUseMOG(f);
+
+    mkNoUseMOG2(f);
+
+    mkNoUseGMG(f);
+
+    mkNoUseKNN(f);
+
+    mkNoUseFGD(f);
+
     f << "Detect.OpticalFlow=0"<< "\n";
     f << "Detect.OpticalFlow.Dense=0"<< "\n";
     f << "Detect.OpticalFlow.Sparse=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.pyr_scale=0.5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.levels=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.winSize=15"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.iterations=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_n=5"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.poly_sigma=1.2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_init_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.use_gaussian=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.Farneback.threshold=0.0001"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.winSize=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.maxLevel=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.count=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_initial_flow=0"<< "\n";
-    f << "Detect.OpticalFlow.Sparse.OpticalFlowPyrLK.use_eigen_val=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.nb_layer=3"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.averaging_block_size=2"<< "\n";
-    f << "Detect.OpticalFlow.Dense.SimpleFlow.max_flow=4"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.tau=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.lambda=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.theta=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.nscales=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.warps=1"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.epsilon=0"<< "\n";
-    f << "Detect.OpticalFlow.Dense.DualTVL.iterations=0"<< "\n";
-    f << "Detect.BlockMatching=0" << "\n";
-    f << "Detect.BlockMatching.min_disparity=0"<< "\n";
-    f << "Detect.BlockMatching.num_disparities=16"<< "\n";
-    f << "Detect.BlockMatching.block_size=3"<< "\n";
-    f << "Detect.BlockMatching.p1=0"<< "\n";
-    f << "Detect.BlockMatching.p2=0"<< "\n";
-    f << "Detect.BlockMatching.disp12_max_diff=0"<< "\n";
-    f << "Detect.BlockMatching.pre_filter_cap=0"<< "\n";
-    f << "Detect.BlockMatching.uniqueness_ratio=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_window_size=0"<< "\n";
-    f << "Detect.BlockMatching.speckle_range=0"<< "\n";
+
+    mkNoUseFarneback(f);
+
+    mkNoUseSimpleFlow(f);
+
+    mkNoUseDualTVL(f);
+
+    mkNoUseOptFlowPyr(f);
+
+    mkNoUseBM(f);
 
     int res_duration = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 25; // between 0 and 100 -> mean around 50
     double res_min = (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4; // between 0 and 1 -> mean around 0.5
@@ -2470,28 +2298,14 @@ void write_detect_rand(fstream& f, int choice)
     f << "Detect.MorphologicalOperators.Erode.anchorx=-1"<< "\n";
     f << "Detect.MorphologicalOperators.Erode.anchory=-1"<< "\n";
     f << "Detect.ContoursRetrieval=1"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.External=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.C_comp=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.Tree=0"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR=1"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR.List=1"<< "\n";
-    f << "Detect.ContoursHierarchical.None=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.K_Cos=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.Simple=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.L1=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsetx=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsety=0"<< "\n";
+    mkContours(f);
+
     f << "Detect.MerginBoundingBoxes=1"<< "\n";
     f << "Detect.MerginBoundingBoxes.scalingFactor=" << res_scal_fact << "\n";
     f << "Detect.MerginBoundingBoxes.nb_loop=" << res_loop << "\n";
     f << "Detect.MerginBoundingBoxes.maxDistance=" << res_dist << "\n";
     f << "Detect.Filters=1"<< "\n";
-    f << "Detect.Filters.FilterLenght=1"<< "\n";
-    f << "Detect.Filters.FilterLenght.threshold=10"<< "\n";
-    f << "Detect.Filters.FilterArea=1"<< "\n";
-    f << "Detect.Filters.FilterArea.threshold=100"<< "\n";
+    mkFilters(f);
 }
 
 /**
@@ -2556,28 +2370,14 @@ int write_detect_rand(fstream& f, int choice, char** argv, int idx)
     f << "Detect.MorphologicalOperators.Erode.anchorx=-1"<< "\n";
     f << "Detect.MorphologicalOperators.Erode.anchory=-1"<< "\n";
     f << "Detect.ContoursRetrieval=1"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.External=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.C_comp=0"<< "\n";
-    f << "Detect.ContoursHierarchical.HCR.Tree=0"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR=1"<< "\n";
-    f << "Detect.ContoursHierarchical.NHCR.List=1"<< "\n";
-    f << "Detect.ContoursHierarchical.None=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.K_Cos=0"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.Simple=1"<< "\n";
-    f << "Detect.ContoursHierarchical.Approximate.L1=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsetx=0"<< "\n";
-    f << "Detect.ContoursHierarchical.offsety=0"<< "\n";
+    mkContours(f);
+
     f << "Detect.MerginBoundingBoxes=1"<< "\n";
     f << "Detect.MerginBoundingBoxes.scalingFactor=" << res_scal_fact << "\n";
     f << "Detect.MerginBoundingBoxes.nb_loop=" << res_loop << "\n";
     f << "Detect.MerginBoundingBoxes.maxDistance=" << res_dist << "\n";
     f << "Detect.Filters=1"<< "\n";
-    f << "Detect.Filters.FilterLenght=1"<< "\n";
-    f << "Detect.Filters.FilterLenght.threshold=10"<< "\n";
-    f << "Detect.Filters.FilterArea=1"<< "\n";
-    f << "Detect.Filters.FilterArea.threshold=100"<< "\n";
+    mkFilters(f);
 
     return idx;
 }
@@ -2691,8 +2491,6 @@ int module_detection_creation(fstream& f, char** argv, int& idx)
 */
 void write_use_color_space(fstream& f)
 {
-    f << "Recognition.ColorSpace=1"<< "\n";
-
     ///which color space to use ?
     cout << "Which color space do you want to use ? (1: RGB; 2: grayscale; 3: YCrCb; 4 : YUV; 5: XYZ; 6: HSV; 7: HLS; 8: La*b*; 9: Luv)" << "\n";
     string res;
@@ -2708,119 +2506,47 @@ void write_use_color_space(fstream& f)
     {
         case 1 : // RGB
         {
-            f << "Recognition.ColorSpace.rgb=1"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseRGB(f);
             break;
         }
         case 2: // grayscale
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=1"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseGray(f);
             break;
         }
         case 3 : // YCrCb
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=1"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseYCrCb(f);
             break;
         }
         case 4 : // YUV
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=1"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseYUV(f);
             break;
         }
         case 5 : // XYZ
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=1"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseXYZ(f);
             break;
         }
         case 6 : // HSV
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=1"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseHSV(f);
             break;
         }
         case 7 : // HLS
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=1"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseHLS(f);
             break;
         }
         case 8 : // La*b*
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=1"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseLab(f);
             break;
         }
         case 9 : // Luv
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=1"<< "\n";
+            mkUseLuv(f);
             break;
         }
     }
@@ -2843,7 +2569,6 @@ void write_use_color_space(fstream& f)
 */
 int write_use_color_space(fstream& f, char** argv, int idx)
 {
-    f << "Recognition.ColorSpace=1"<< "\n";
 
     ///which color space to use ?
     cout << "Which color space do you want to use ? (1: RGB; 2: grayscale; 3: YCrCb; 4 : YUV; 5: XYZ; 6: HSV; 7: HLS; 8: La*b*; 9: Luv)" << "\n";
@@ -2863,119 +2588,47 @@ int write_use_color_space(fstream& f, char** argv, int idx)
     {
         case 1 : // RGB
         {
-            f << "Recognition.ColorSpace.rgb=1"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseRGB(f);
             break;
         }
         case 2: // Grayscale
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=1"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseGray(f);
             break;
         }
         case 3 : // YCrCb
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=1"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseYCrCb(f);
             break;
         }
         case 4 : // YUV
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=1"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseYUV(f);
             break;
         }
         case 5 : // XYZ
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=1"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseXYZ(f);
             break;
         }
         case 6 : // HSV
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=1"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseHSV(f);
             break;
         }
         case 7 : // HLS
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=1"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseHLS(f);
             break;
         }
         case 8 : // La*b*
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=1"<< "\n";
-            f << "Recognition.ColorSpace.Luv=0"<< "\n";
+            mkUseLab(f);
             break;
         }
         case 9 : // Luv
         {
-            f << "Recognition.ColorSpace.rgb=0"<< "\n";
-            f << "Recognition.ColorSpace.gray=0"<< "\n";
-            f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-            f << "Recognition.ColorSpace.YUV=0"<< "\n";
-            f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-            f << "Recognition.ColorSpace.HSV=0"<< "\n";
-            f << "Recognition.ColorSpace.HLS=0"<< "\n";
-            f << "Recognition.ColorSpace.Lab=0"<< "\n";
-            f << "Recognition.ColorSpace.Luv=1"<< "\n";
+            mkUseLuv(f);
             break;
         }
     }
@@ -2996,16 +2649,7 @@ int write_use_color_space(fstream& f, char** argv, int idx)
 */
 void write_not_use_color_space(fstream& f)
 {
-    f << "Recognition.ColorSpace=1"<< "\n";
-    f << "Recognition.ColorSpace.rgb=1"<< "\n";
-    f << "Recognition.ColorSpace.gray=0"<< "\n";
-    f << "Recognition.ColorSpace.yCrCb=0"<< "\n";
-    f << "Recognition.ColorSpace.YUV=0"<< "\n";
-    f << "Recognition.ColorSpace.XYZ=0"<< "\n";
-    f << "Recognition.ColorSpace.HSV=0"<< "\n";
-    f << "Recognition.ColorSpace.HLS=0"<< "\n";
-    f << "Recognition.ColorSpace.Lab=0"<< "\n";
-    f << "Recognition.ColorSpace.Luv=0"<< "\n";
+    mkUseRGB(f);
 }
 
 /**
@@ -3022,10 +2666,7 @@ void write_not_use_color_space(fstream& f)
 void write_use_template_matching(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<<"\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -3045,69 +2686,42 @@ void write_use_template_matching(fstream& f)
     {
         case 1 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeff(f);
             break;
         }
         case 2 :
         {
-           f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+
+            mkUseTMCoeffNorm(f);
             break;
         }
         case 3 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiff(f);
             break;
         }
         case 4 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_norned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiffNormed(f);
             break;
         }
         case 5 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCorr(f);
             break;
         }
         case 6 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=1"<< "\n";
+            mkUseTMCorrNormed(f);
             break;
         }
     }
 
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
 
     ///color space ? And which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -3121,59 +2735,7 @@ void write_use_template_matching(fstream& f)
         write_not_use_color_space(f);
     }
 
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
-
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 }
 
 /**
@@ -3194,10 +2756,7 @@ void write_use_template_matching(fstream& f)
 int write_use_template_matching(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<<"\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -3220,69 +2779,41 @@ int write_use_template_matching(fstream& f, char** argv, int idx)
     {
         case 1 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeff(f);
             break;
         }
         case 2 :
         {
-           f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeffNorm(f);
             break;
         }
         case 3 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiff(f);
             break;
         }
         case 4 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_norned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiffNormed(f);
             break;
         }
         case 5 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCorr(f);
             break;
         }
         case 6 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=1"<< "\n";
+            mkUseTMCorrNormed(f);
             break;
         }
     }
 
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
 
     /// color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -3300,59 +2831,7 @@ int write_use_template_matching(fstream& f, char** argv, int idx)
         write_not_use_color_space(f);
     }
 
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
-
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 
     return idx;
 }
@@ -3374,26 +2853,14 @@ void write_use_feature_matching(fstream& f)
 {
 
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.FeatureMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
 
     write_not_use_color_space(f);
 
@@ -3413,251 +2880,76 @@ void write_use_feature_matching(fstream& f)
     {
         case 1 : // SIFT
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
+
             break;
         }
 
         case 2 : // SURF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 3 : // BRIEF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 4 : // ORB
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 5 : // BRISK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 6 : // FREAK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkUseFREAK(f);
             break;
         }
     }
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
 
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseHistogramMatch(f);
+
+    mkNoUseDistMeas(f);
 }
 
 /**
@@ -3680,26 +2972,14 @@ int write_use_feature_matching(fstream& f, char** argv, int idx)
 {
 
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.FeatureMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
 
     write_not_use_color_space(f);
 
@@ -3721,251 +3001,73 @@ int write_use_feature_matching(fstream& f, char** argv, int idx)
     {
         case 1 : // SIFT
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 2 : // SURF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 3 : // BRIEF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 4 : // ORB
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkUseORB(f);
+            mkNoUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 5 : // BRISK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkUseBRISK(f);
+            mkNoUseFREAK(f);
             break;
         }
 
         case 6 : // FREAK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+            mkNoUseSIFT(f);
+            mkNoUseSURF(f);
+            mkNoUseBRIEF(f);
+            mkNoUseORB(f);
+            mkNoUseBRISK(f);
+            mkUseFREAK(f);
             break;
         }
     }
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkNoUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 
     return idx;
 }
@@ -3986,27 +3088,13 @@ int write_use_feature_matching(fstream& f, char** argv, int idx)
 void write_use_histogram_matching(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
 
     ///use specific color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4020,55 +3108,11 @@ void write_use_histogram_matching(fstream& f)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+    mkNoUseFeatureMatch(f);
 
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
-
+    mkUseCorrelDist(f);
 }
 
 /**
@@ -4090,27 +3134,13 @@ void write_use_histogram_matching(fstream& f)
 int write_use_histogram_matching(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
 
     ///use specific color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4127,54 +3157,11 @@ int write_use_histogram_matching(fstream& f, char** argv, int idx)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+    mkNoUseFeatureMatch(f);
 
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkUseCorrelDist(f);
 
     return idx;
 }
@@ -4195,27 +3182,14 @@ int write_use_histogram_matching(fstream& f, char** argv, int idx)
 void write_use_distance_matching(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=1"<< "\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=1" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkUseDistMatchMSE(f);
 
     ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4229,54 +3203,11 @@ void write_use_distance_matching(fstream& f)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+    mkNoUseFeatureMatch(f);
 
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkNoUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkUsePixelWiseDist(f);
 }
 
 /**
@@ -4298,27 +3229,15 @@ void write_use_distance_matching(fstream& f)
 int write_use_distance_matching(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=1"<< "\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=1" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkUseDistMatchMSE(f);
+
 
     ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4335,54 +3254,11 @@ int write_use_distance_matching(fstream& f, char** argv, int idx)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+    mkNoUseFeatureMatch(f);
 
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkNoUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkUsePixelWiseDist(f);
 
     return idx;
 }
@@ -4429,10 +3305,14 @@ void write_recognition_default(fstream& f, int choice)
         case 5 : // use Pyramidal
         {
             f << "Recognition.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
+            mkNoUseTM(f);
+
+            mkNoUseDistMatch(f);
+
+            mkNoUseFeatureMatch(f);
+
+            mkNoUseHistogramMatch(f);
+
             f << "Recognition.Pyramidal=1"<< "\n";
             f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
             f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -4487,10 +3367,14 @@ int write_recognition_default(fstream& f, int choice, char** argv, int idx)
         case 5 : // use Pyramidal
         {
             f << "Recognition.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
+            mkNoUseTM(f);
+
+            mkNoUseDistMatch(f);
+
+            mkNoUseFeatureMatch(f);
+
+            mkNoUseHistogramMatch(f);
+
             f << "Recognition.Pyramidal=1"<< "\n";
             f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
             f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -4515,10 +3399,7 @@ int write_recognition_default(fstream& f, int choice, char** argv, int idx)
 void write_use_template_matching_rand(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<<"\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -4538,62 +3419,32 @@ void write_use_template_matching_rand(fstream& f)
     {
         case 1 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeff(f);
             break;
         }
         case 2 :
         {
-           f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeffNorm(f);
             break;
         }
         case 3 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiff(f);
             break;
         }
         case 4 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_norned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiffNormed(f);
             break;
         }
         case 5 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCorr(f);
             break;
         }
         case 6 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=1"<< "\n";
+            mkUseTMCorrNormed(f);
             break;
         }
     }
@@ -4601,6 +3452,12 @@ void write_use_template_matching_rand(fstream& f)
     f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
     f << "Recognition.TemplateMatching.TemplateMatching.size_factor=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 * 10 + 2 << "\n"; // between 2 and 12 -> mean around 7
     f << "Recognition.TemplateMatching.TemplateMatching.match_proba=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 << "\n"; // between 0 and 1 -> mean around 0.5
+
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
 
     ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4614,59 +3471,7 @@ void write_use_template_matching_rand(fstream& f)
         write_not_use_color_space(f);
     }
 
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
-
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 }
 
 /**
@@ -4687,10 +3492,7 @@ void write_use_template_matching_rand(fstream& f)
 int write_use_template_matching_rand(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<<"\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -4721,62 +3523,32 @@ int write_use_template_matching_rand(fstream& f, char** argv, int idx)
     {
         case 1 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeff(f);
             break;
         }
         case 2 :
         {
-           f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCoeffNorm(f);
             break;
         }
         case 3 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiff(f);
             break;
         }
         case 4 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_norned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMSQDiffNormed(f);
             break;
         }
         case 5 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=1"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
+            mkUseTMCorr(f);
             break;
         }
         case 6 :
         {
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=1"<< "\n";
+            mkUseTMCorrNormed(f);
             break;
         }
     }
@@ -4784,6 +3556,12 @@ int write_use_template_matching_rand(fstream& f, char** argv, int idx)
     f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
     f << "Recognition.TemplateMatching.TemplateMatching.size_factor=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 * 10 + 2 << "\n"; // between 2 and 12 -> mean around 7
     f << "Recognition.TemplateMatching.TemplateMatching.match_proba=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 << "\n"; // between 0 and 1 -> mean around 0.5
+
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
 
     /// use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -4801,59 +3579,8 @@ int write_use_template_matching_rand(fstream& f, char** argv, int idx)
         write_not_use_color_space(f);
     }
 
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
 
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 
     return idx;
 }
@@ -4875,26 +3602,16 @@ int write_use_template_matching_rand(fstream& f, char** argv, int idx)
 void write_use_feature_matching_rand(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.FeatureMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
+
+
 
     write_not_use_color_space(f);
 
@@ -4914,143 +3631,79 @@ void write_use_feature_matching_rand(fstream& f)
         case 1 : // SIFT
         {
             f << "Recognition.TemplateMatching.FeatureMatching.Sift=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
+
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3" << "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4<< "\n"; // between 0 and 1 -> mean around 0.5
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 5 << "\n"; // between 0 and 20 -> mean around 10
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
+
             break;
         }
 
         case 2 : // SURF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
+
+            mkNoUseSIFT(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Surf=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=" << ((((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4 * 400) << "\n"; // between 0 and 400 -> mean around 200
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
+
             break;
         }
 
         case 3 : // BRIEF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
             f << "Recognition.TemplateMatching.FeatureMatching.Brief=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 4 : // ORB
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
+
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.ORB=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
+
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 125 << "\n"; // between 0 and 500 -> mean around 250
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=" << ( (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) )  / 4) +1 << "\n"; // between 1 and 2 -> mean around 1.5
-            cout << "HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEY" << endl <<( (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) )  / 4) +1 << endl;
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
@@ -5058,87 +3711,47 @@ void write_use_feature_matching_rand(fstream& f)
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 5 : // BRISK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
+
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 6 : // FREAK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
+
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Freak=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
@@ -5146,19 +3759,9 @@ void write_use_feature_matching_rand(fstream& f)
             break;
         }
     }
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
+    mkNoUseHistogramMatch(f);
 
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseDistMeas(f);
 }
 
 /**
@@ -5181,26 +3784,14 @@ void write_use_feature_matching_rand(fstream& f)
 int write_use_feature_matching_rand(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.FeatureMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+
+    mkNoUseTM(f);
+
+    mkNoUseDistMatch(f);
 
     write_not_use_color_space(f);
 
@@ -5223,141 +3814,72 @@ int write_use_feature_matching_rand(fstream& f, char** argv, int idx)
         case 1 :
         {
             f << "Recognition.TemplateMatching.FeatureMatching.Sift=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3" << "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) /4<< "\n"; // between 0 and 1 -> mean around 0.5
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 5 << "\n"; // between 0 and 20 -> mean around 10
             f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 2 : // SURF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
+            mkNoUseSIFT(f);
             f << "Recognition.TemplateMatching.FeatureMatching.Surf=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 50 + 300 << "\n"; //between 300 and 500 -> mean around 400
             // << (rand() % 200 + (-100) ) + 400 << "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 3 : // BRIEF
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Brief=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 4 : //ORB
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.ORB=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) * 50 + 400 << "\n"; // between 400 and 600 -> mean around 500
             //(rand() % 200 + (-100)) + 500 << "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 +1 << "\n"; //between 1 and  2 -> mean around 1.5
@@ -5370,87 +3892,46 @@ int write_use_feature_matching_rand(fstream& f, char** argv, int idx)
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseBRISK(f);
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 5 : // BRISK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
+
+            mkNoUseFREAK(f);
             break;
         }
 
         case 6 : // FREAK
         {
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
+
+            mkNoUseSIFT(f);
+
+            mkNoUseSURF(f);
+
+            mkNoUseBRIEF(f);
+
+            mkNoUseORB(f);
+
+            mkNoUseBRISK(f);
+
             f << "Recognition.TemplateMatching.FeatureMatching.Freak=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
             f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
@@ -5458,19 +3939,10 @@ int write_use_feature_matching_rand(fstream& f, char** argv, int idx)
             break;
         }
     }
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
 
-    f << "Recognition.DistanceMeasure=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
+    mkNoUseHistogramMatch(f);
+
+    mkNoUseDistMeas(f);
 
     return idx++;
 }
@@ -5492,29 +3964,24 @@ int write_use_feature_matching_rand(fstream& f, char** argv, int idx)
 void write_use_histogram_matching_rand(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.HistogramMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
 
-    ///use a particular color space ? Which one ?
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+
+    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 * 255 + 1 << "\n"; // between 1 and 256 -> mean around 128
+    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 << "\n"; // between 0 and 1 -> mean around 0.5
+
+    mkUseCorrelDist(f);
+
+        ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
     string c;
     cin >> c;
@@ -5526,54 +3993,6 @@ void write_use_histogram_matching_rand(fstream& f)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 * 255 + 1 << "\n"; // between 1 and 256 -> mean around 128
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 << "\n"; // between 0 and 1 -> mean around 0.5
-
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
 
 }
 
@@ -5597,29 +4016,23 @@ void write_use_histogram_matching_rand(fstream& f)
 int write_use_histogram_matching_rand(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
     f << "Recognition.TemplateMatching.HistogramMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
 
-    ///use a particular color space ? Which one ?
+    mkNoUseDistMatch(f);
+
+    mkNoUseFeatureMatch(f);
+
+    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 * 255 + 1 << "\n"; // between 1 and 256 -> mean around 128
+    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 << "\n"; // between 0 and 1 -> mean around 0.5
+
+    mkUseCorrelDist(f);
+
+        ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
     string c(argv[idx]);
     //cin >> c;
@@ -5634,54 +4047,6 @@ int write_use_histogram_matching_rand(fstream& f, char** argv, int idx)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 * 255 + 1 << "\n"; // between 1 and 256 -> mean around 128
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=" << (((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX)+ ((double) rand() / RAND_MAX) + ((double) rand() / RAND_MAX) ) / 4 << "\n"; // between 0 and 1 -> mean around 0.5
-
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
 
     return idx;
 }
@@ -5703,27 +4068,19 @@ int write_use_histogram_matching_rand(fstream& f, char** argv, int idx)
 void write_use_distance_matching_rand(fstream& f)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=1"<< "\n";
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=1" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkUseDistMatchMSE(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
+
+    mkUsePixelWiseDist(f);
 
     ///use a particular color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -5737,54 +4094,6 @@ void write_use_distance_matching_rand(fstream& f)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
 }
 
 /**
@@ -5807,27 +4116,20 @@ void write_use_distance_matching_rand(fstream& f)
 int write_use_distance_matching_rand(fstream& f, char** argv, int idx)
 {
     f << "Recognition.TemplateMatching=1"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching=1"<< "\n";
+
     f << "Recognition.Pyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
     f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
 
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccoeff_morned=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_sqdiff_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.cv_tm_ccorr_normed=0"<< "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.nb_layers=0" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.size_factor=2" << "\n";
-    f << "Recognition.TemplateMatching.TemplateMatching.match_proba=0.8" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.Absolute_diff=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MSE=1" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.MAE=0" << "\n";
-    f << "Recognition.TemplateMatching.DistanceMatching.max_distance=1200" << "\n";
+    mkNoUseTM(f);
+
+    mkUseDistMatchMSE(f);
+
+    mkNoUseFeatureMatch(f);
+
+    mkNoUseHistogramMatch(f);
+
+    mkUsePixelWiseDist(f);
 
     /// use a specific color space ? Which one ?
     cout << "Do you want to use a particular color space ? (y or n)" <<"\n";
@@ -5844,54 +4146,6 @@ int write_use_distance_matching_rand(fstream& f, char** argv, int idx)
     {
         write_not_use_color_space(f);
     }
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.nfeatures=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.n_octave_layers=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.contrast_threshold=0.04"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.edge_threshold=10"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Sift.sigma=1.6"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.hessian_threshold=400.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octaves=4"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.n_octave_layers=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.extended=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Surf.upright=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.bytes=32"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brief.use_orientation=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nfeatures=500"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.scale_factor=1.2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.nlevels=8"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.edge_threshold=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.first_level=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.wta_k=2"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.score_type=0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.patch_size=31"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.ORB.fast_threshold=20"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.thresh=30"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.octaves=3"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Brisk.pattern_scale=1.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.orientation_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.scale_normalized=1"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.pattern_scale=22.0"<< "\n";
-    f << "Recognition.TemplateMatching.FeatureMatching.Freak.n_octaves=4"<< "\n";
-
-    f << "Recognition.TemplateMatching.HistogramMatching.numberOfBins=50"<< "\n";
-    f << "Recognition.TemplateMatching.HistogramMatching.Threshold=0.8" << "\n";
-
-    f << "Recognition.DistanceMeasure=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance=0"<< "\n";
-    f << "Recognition.DistanceMeasure.PixelWiseDistance=1"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Correl=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquare=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.ChiSquareAlt=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Intersection=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.KLDivergence=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Hellinger=0"<< "\n";
-    f << "Recognition.DistanceMeasure.HistogramDistance.Bhattacharyya=0"<< "\n";
 
     return idx;
 }
@@ -5942,10 +4196,14 @@ void write_recognition_rand(fstream& f, int choice)
         case 5 : // use Pyramidal
         {
             f << "Recognition.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
+            mkNoUseTM(f);
+
+            mkNoUseDistMatch(f);
+
+            mkNoUseFeatureMatch(f);
+
+            mkNoUseHistogramMatch(f);
+
             f << "Recognition.Pyramidal=1"<< "\n";
             f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
             f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -6003,10 +4261,15 @@ int write_recognition_rand(fstream& f, int choice, char** argv, int idx)
         case 5 : // use Pyramidal
         {
             f << "Recognition.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.TemplateMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.HistogramMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.FeatureMatching=0"<< "\n";
-            f << "Recognition.TemplateMatching.DistanceMatching=0"<< "\n";
+
+            mkNoUseTM(f);
+
+            mkNoUseDistMatch(f);
+
+            mkNoUseFeatureMatch(f);
+
+            mkNoUseHistogramMatch(f);
+
             f << "Recognition.Pyramidal=1"<< "\n";
             f << "Recognition.Pyramidal.BMPyramidal=0"<< "\n";
             f << "Recognition.Pyramidal.CascadeClassifier=0"<< "\n";
@@ -6104,11 +4367,7 @@ int module_recognition_creation(fstream& f, char** argv, int idx)
 */
 void write_no_tracking(fstream& f)
 {
-    f << "Tracking=0"<< "\n";
-    f << "Tracking.Trackers=0"<< "\n";
-    f << "Tracking.Trackers.Boosting=0"<< "\n";
-    f << "Tracking.Trackers.MIL=0"<< "\n";
-    f << "Tracking.CamShift=0"<< "\n";
+    mkNoUseTracking(f);
 }
 
 /**
@@ -6125,7 +4384,6 @@ void write_no_tracking(fstream& f)
 */
 void write_tracking_default(fstream& f, int choice)
 {
-    f << "Tracking=1"<< "\n";
     if(choice == 1)
     {
         ///use trackers ?
@@ -6134,26 +4392,17 @@ void write_tracking_default(fstream& f, int choice)
         cin >> c;
         if(c == "y")
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=1"<< "\n";
-            f << "Tracking.Trackers.MIL=0"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseBoosting(f);
         }
         else ///else use MIL
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=0"<< "\n";
-            f << "Tracking.Trackers.MIL=1"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseMIL(f);
         }
 
     }
     else /// else no trackers but CamShift
     {
-        f << "Tracking.Trackers=0"<< "\n";
-        f << "Tracking.Trackers.Boosting=0"<< "\n";
-        f << "Tracking.Trackers.MIL=0"<< "\n";
-        f << "Tracking.CamShift=1"<< "\n";
+        mkUseCamShift(f);
     }
 
 }
@@ -6172,7 +4421,6 @@ void write_tracking_default(fstream& f, int choice)
 */
 int write_tracking_default(fstream& f, int choice, char** argv, int idx)
 {
-    f << "Tracking=1"<< "\n";
     ///use tracker based technique ?
     if(choice == 1)
     {
@@ -6185,26 +4433,17 @@ int write_tracking_default(fstream& f, int choice, char** argv, int idx)
 
         if(c == "y") // boosting
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=1"<< "\n";
-            f << "Tracking.Trackers.MIL=0"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseBoosting(f);
         }
         else // MIL
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=0"<< "\n";
-            f << "Tracking.Trackers.MIL=1"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseMIL(f);
         }
 
     }
     else // CamShift
     {
-        f << "Tracking.Trackers=0"<< "\n";
-        f << "Tracking.Trackers.Boosting=0"<< "\n";
-        f << "Tracking.Trackers.MIL=0"<< "\n";
-        f << "Tracking.CamShift=1"<< "\n";
+        mkUseCamShift(f);
     }
 
     return idx;
@@ -6225,7 +4464,6 @@ int write_tracking_default(fstream& f, int choice, char** argv, int idx)
 */
 void write_tracking_rand(fstream& f, int choice)
 {
-    f << "Tracking=1"<< "\n";
     //use trackers ?
     if(choice == 1)
     {
@@ -6235,26 +4473,17 @@ void write_tracking_rand(fstream& f, int choice)
         cin >> c;
         if(c == "y") //boosting
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=1"<< "\n";
-            f << "Tracking.Trackers.MIL=0"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseBoosting(f);
         }
         else // MIL
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=0"<< "\n";
-            f << "Tracking.Trackers.MIL=1"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseMIL(f);
         }
 
     }
     else // CamShift
     {
-        f << "Tracking.Trackers=0"<< "\n";
-        f << "Tracking.Trackers.Boosting=0"<< "\n";
-        f << "Tracking.Trackers.MIL=0"<< "\n";
-        f << "Tracking.CamShift=1"<< "\n";
+        mkUseCamShift(f);
     }
 }
 
@@ -6275,7 +4504,6 @@ void write_tracking_rand(fstream& f, int choice)
 */
 int write_tracking_rand(fstream& f, int choice, char** argv, int idx)
 {
-    f << "Tracking=1"<< "\n";
     ///use trackers ?
     if(choice == 1)
     {
@@ -6288,26 +4516,17 @@ int write_tracking_rand(fstream& f, int choice, char** argv, int idx)
 
         if(c == "y") //boosting
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=1"<< "\n";
-            f << "Tracking.Trackers.MIL=0"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseBoosting(f);
         }
         else // MIL
         {
-            f << "Tracking.Trackers=1"<< "\n";
-            f << "Tracking.Trackers.Boosting=0"<< "\n";
-            f << "Tracking.Trackers.MIL=1"<< "\n";
-            f << "Tracking.CamShift=0"<< "\n";
+            mkUseMIL(f);
         }
 
     }
     else  // CamShift
     {
-        f << "Tracking.Trackers=0"<< "\n";
-        f << "Tracking.Trackers.Boosting=0"<< "\n";
-        f << "Tracking.Trackers.MIL=0"<< "\n";
-        f << "Tracking.CamShift=1"<< "\n";
+        mkUseCamShift(f);
     }
 
     return idx;
